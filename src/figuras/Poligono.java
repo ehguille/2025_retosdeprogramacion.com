@@ -1,3 +1,4 @@
+package figuras;
 
 public abstract class Poligono {
 	

@@ -1,6 +1,12 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Stack;
+
+import piedrapapeltijera.Eleccion;
+import piedrapapeltijera.Jugada;
+import figuras.*;
 
 /**
  * Soluciones a https://retosdeprogramacion.com/ejercicios
@@ -10,12 +16,39 @@ public class Soluciones {
 	
 	public Soluciones() {
 	//	fizzbuzz();
+	//	fibonacci();
 	//	System.out.println(esAnagrama("fresa","frase"));
 	//	System.out.println(esEquilibrada("[{}(())]"));
 	//	System.out.println(esPalindromo("abccba"));
 	//	System.out.println(esNumeroNarcisista(1634));
-		System.out.println(ponerMayuscula("un dos tres"));
+	//	System.out.println(ponerMayuscula("un dos tres"));
+	//	imprimirPrimos(100);
+	//	toBinario(1021);
+	//	contarPalabras("Hola, estás, aquí, Hola, estás aquí aquí aquí pepe");
+	//	int[] a={7,9,8,4,1};
+	//	int[] b={7,3,2,4,0};
+	//	conjuntos(a,b,false);
+	/*	Jugada[] jugadas= {new Jugada(Eleccion.PAPEL, Eleccion.PIEDRA),
+				new Jugada(Eleccion.PAPEL, Eleccion.PIEDRA),
+				new Jugada(Eleccion.PIEDRA, Eleccion.PIEDRA),
+				new Jugada(Eleccion.PIEDRA, Eleccion.TIJERA),
+				new Jugada(Eleccion.TIJERA, Eleccion.TIJERA),
+				new Jugada(Eleccion.TIJERA, Eleccion.PAPEL),
+				new Jugada(Eleccion.TIJERA, Eleccion.TIJERA),
+				new Jugada(Eleccion.PAPEL, Eleccion.PIEDRA),
+				new Jugada(Eleccion.PAPEL, Eleccion.PIEDRA),
+				new Jugada(Eleccion.PAPEL, Eleccion.PIEDRA)
+				};
+		contadorResultados(jugadas);*/
+	//	dibujarFigura(10,"triángulo");
+	//	enmarcar("Vale por un bollo preñao.");
+		//int[] listado={-1,-2,-3,-4,-5,-7,-12,-14,-16,-20};
+		//System.out.println(obtenerSegundoMayor(listado));
+	//	imprimirProximos30Bisiestos(2026);
+		int[] numeros= {7,9,10,13,15,18};
 		
+		//TODO: MODIFICAR PARA QUE IMPRIMA ESTO
+		obtenerFaltantes(numeros);
 	}
 	
 	/*
@@ -80,19 +113,34 @@ public class Soluciones {
 	 *   0, 1, 1, 2, 3, 5, 8, 13...
 	 */
 	public void fibonacci() {
-		int numeroAnteAnterior=0;
-		int numeroAnterior=1;
-		for(int i=0;i<50;i++) {
-			//PEREZA
-		}
-		
+		double numeroAnteAnterior=0;
+		double numeroAnterior=1;
+		System.out.println(numeroAnteAnterior);
+		System.out.println(numeroAnterior);
+		for(int i=0;i<48;i++) {
+			double numeroActual=numeroAnterior+numeroAnteAnterior;
+			numeroAnteAnterior=numeroAnterior;
+			numeroAnterior=numeroActual;
+			System.out.println(numeroActual);		
+		}		
 	}
 	
 	/*
 	 * Escribe un programa que se encargue de comprobar si un número es o no primo.
 	 * Hecho esto, imprime los números primos entre 1 y 100.
 	 */
-	//TODO
+	public boolean esPrimo(int n) {
+		for(int i=n-1;i>1;i--)
+			if(n%i==0)
+				return false;
+		return true;
+	}
+	
+	public void imprimirPrimos(int n) {
+		for(int i=0;i<n;i++)
+			if(esPrimo(i))
+				System.out.println(i);
+	}
 	
 	/*
 	 * Crea una única función (importante que sólo sea una) que sea capaz
@@ -127,10 +175,23 @@ public class Soluciones {
 	 *   lo resuelvan automáticamente.
 	 */
 	public void contarPalabras(String cadena) {
+		HashMap<String, Integer> contador= new HashMap<String, Integer>();
+		//Con esto quito los signos
+		cadena=cadena.replace(',',' ');
+		cadena=cadena.replace('.',' ');
+		cadena=cadena.trim();
 		String[] palabras=cadena.split(" ");
-		ArrayList<String> al=new ArrayList<String>(Arrays.asList(palabras));
-		al.sort(null);
-		//PEREZA
+		for(int i=0;i<palabras.length;i++) {
+			String palabra=palabras[i].trim().toUpperCase();
+			if(palabra!="")
+				if(!contador.containsKey(palabra))
+					contador.put(palabra,1);
+				else
+					contador.put(palabra, contador.get(palabra)+1);
+		}
+		for(String palabra: contador.keySet()) {
+			System.out.println(palabra+" "+contador.get(palabra));
+		}
 	}
 	
 	/*
@@ -138,7 +199,20 @@ public class Soluciones {
 	 * decimal a binario sin utilizar funciones propias del lenguaje que lo hagan directamente.
 	 */
 	public void toBinario(int decimal) {
-		//PEREZA
+		String resultado="";
+		int dividendo=decimal;
+		int divisor=2;
+		int cociente=dividendo/divisor;
+		int resto=dividendo%divisor;
+		while(cociente>0) {
+			resultado+=resto; 
+			dividendo=cociente;
+			cociente=dividendo/divisor;
+			resto=dividendo%divisor;
+		}
+		resultado+=resto;
+		for(int i=resultado.length()-1;i>=0;i--)
+			System.out.print(resultado.charAt(i));
 	}
 	
 	/*
@@ -259,13 +333,41 @@ public class Soluciones {
 	 * - No se pueden utilizar operaciones del lenguaje que
 	 *   lo resuelvan directamente.
 	 */
-	public int[] conjuntos(int[] a, int[] b, boolean comunes) {
+	public Integer[] conjuntos(int[] a, int[] b, boolean comunes) {
 		ArrayList<Integer> al=new ArrayList<Integer>();
-		//PEREZA
-		int[] c=new int[al.size()];
-		for(int i=0;i<al.size();i++)
-			c[i]=al.get(i);
-		return c;
+		if(comunes) {
+			for(int i=0;i<a.length;i++)
+				for(int j=0;j<b.length;j++) {
+					if(a[i]==b[j]) 
+						if(!al.contains(a[i]))
+							al.add(a[i]);
+				}
+		}
+		else {
+			for(int i=0;i<a.length;i++) {
+				boolean repetido=false;
+				for(int j=0;j<b.length;j++) {
+					if(a[i]==b[j]) {
+						repetido=true;
+						break;
+					}
+				}
+				if(repetido==false)
+					al.add(a[i]);
+			}
+			for(int j=0;j<b.length;j++) {
+				boolean repetido=false;
+				for(int i=0;i<a.length;i++) {
+					if(a[i]==b[j]) {
+						repetido=true;
+						break;
+					}
+				}
+				if(repetido==false)
+					al.add(b[j]);
+			}
+		}
+		return (Integer[])al.toArray();
 	}
 	
 	/*
@@ -277,36 +379,138 @@ public class Soluciones {
 	 *   o "S" (tijera).
 	 * - Ejemplo. Entrada: [("R","S"), ("S","R"), ("P","S")]. Resultado: "Player 2".
 	 */
-	
+	public void contadorResultados(Jugada[] jugada) {
+		int contadorPlayer1=0;
+		int contadorPlayer2=0;
+		int contadorEmpates=0;
+		for(int i=0;i<jugada.length;i++)
+			if(jugada[i].evaluarPartida().equals("Player 1"))
+				contadorPlayer1++;
+			else if (jugada[i].evaluarPartida().equals("Player 2"))
+				contadorPlayer2++;
+			else
+				contadorEmpates++;
+		System.out.println("Contador Player 1: "+contadorPlayer1);
+		System.out.println("Contador Player 2: "+contadorPlayer2);
+		System.out.println("Contador Empates: "+contadorEmpates);
+	}
 	
 	/*
 	 * Crea un programa que dibuje un cuadrado o un triángulo con asteriscos "*".
 	 * - Indicaremos el tamaño del lado y si la figura a dibujar es una u otra.
 	 * - EXTRA: ¿Eres capaz de dibujar más figuras?
 	 */
+	public void dibujarFigura(int size, String tipo) {
+		if(tipo.toUpperCase().equals("CUADRADO")) {
+			for(int i=0;i<size;i++) {
+				for(int j=0;j<size;j++) {
+					if(i==0||i==size-1)
+						System.out.print("*");
+					else if(j==0||j==size-1)
+						System.out.print("*");
+					else
+						System.out.print(" ");
+				}
+				System.out.println("");
+			}			
+		} else if (tipo.toUpperCase().equals("TRIÁNGULO")) {
+			for(int i=0;i<size;i++) {
+				for(int j=0;j<size;j++) {
+					if(i==size-1||j==0||(i==j))
+						System.out.print("*");
+					else
+						System.out.print(" ");
+				}
+				System.out.println("");
+			}
+		} else {
+			System.out.println("Opciones válidas: cuadrado o triángulo.");
+		}
+	}
 	
 	/*
 	 * Crea una función que reciba un texto y muestre cada palabra en una línea,
 	 * formando un marco rectangular de asteriscos.
 	 * - ¿Qué te parece el reto? Se vería así:
 	 *   **********
-	 *   * ¿Qué   *
+	 *   * ¿Qué   * 
 	 *   * te     *
 	 *   * parece *
-	 *   * el     *
+	 *   * el     * 
 	 *   * reto?  *
 	 *   **********
 	 */
 	
+	public void enmarcar(String frase) {
+		String[] palabras=frase.split(" ");
+		int longitudPalabraMasLarga=0;
+		for(int i=0;i<palabras.length;i++)
+			if(palabras[i].length()>longitudPalabraMasLarga)
+				longitudPalabraMasLarga=palabras[i].length();
+		for(int i=0;i<=longitudPalabraMasLarga+1;i++)
+			System.out.print("*");
+		System.out.println("");
+		for(int i=0;i<palabras.length;i++) {
+			int numeroEspacios=longitudPalabraMasLarga-palabras[i].length();
+			System.out.print("*"+palabras[i]);
+			for(int j=0;j<numeroEspacios;j++)
+				System.out.print(" ");
+			System.out.println("*");
+		}
+		for(int i=0;i<=longitudPalabraMasLarga+1;i++)
+			System.out.print("*");
+	}
+	
 	/*
 	 * Dado un listado de números, encuentra el SEGUNDO más grande
 	 */
+	public int obtenerSegundoMayor(int[] numeros) {
+		int maximo=Integer.MIN_VALUE;
+		int indice=0;
+		for(int i=0;i<numeros.length;i++) {
+			if(numeros[i]>maximo) {
+				maximo=numeros[i];
+				indice=i;
+			}
+		}
+		maximo=Integer.MIN_VALUE;
+		numeros[indice]=Integer.MIN_VALUE;
+		for(int i=0;i<numeros.length;i++) {
+			if(numeros[i]>maximo)
+				maximo=numeros[i];
+		}
+		return maximo;
+	}
 	
 	/*
 	 * Crea una función que imprima los 30 próximos años bisiestos
 	 * siguientes a uno dado.
 	 * - Utiliza el menor número de líneas para resolver el ejercicio.
 	 */
+	public void imprimirProximos30Bisiestos(int anyoActual) {
+		int contadorBisiestos=0;
+		while(contadorBisiestos<30) {
+			if(esBisiesto(anyoActual)) {
+				System.out.println(anyoActual);
+				contadorBisiestos++;
+			}
+			anyoActual++;				
+		}
+	}
+	
+	public boolean esBisiesto(int anyo) {
+		if(anyo%100==0)
+			if(anyo%400==0)
+				return true;
+			else
+				return false;
+		else
+			if(anyo%4==0)
+				return true;
+			else
+				return false;
+	}
+	
 	
 	/*
 	 * Dado un array de enteros ordenado y sin repetidos,
@@ -314,6 +518,27 @@ public class Soluciones {
 	 * el mayor y el menor.
 	 * - Lanza un error si el array de entrada no es correcto.
 	 */
+	public Integer[] obtenerFaltantes(int[] numeros) {
+		ArrayList<Integer> al=new ArrayList<Integer>();
+		int minimo=numeros[0];
+		int maximo=numeros[numeros.length-1];
+		for(int i=minimo+1;i<maximo;i++) {
+			boolean existeNumero=false;
+			for(int j=0;j<numeros.length;j++) {
+				if(numeros[j]>i)
+					break;
+				if(numeros[j]==i) {
+					existeNumero=true;
+					break;
+				}
+			}
+			if(!existeNumero)
+				al.add(i);	
+		}
+		Integer[] array=(Integer[])al.toArray(new Integer[0]);
+		return array;
+		
+	}
 	
 	/*
 	 * Crea un programa que calcule el daño de un ataque durante
